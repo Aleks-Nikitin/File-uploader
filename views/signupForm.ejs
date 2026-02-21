@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%-include("partials/nav") %>
+     <%-include("partials/errors") %>
+     <form action="/sign-up" method="post">
+       <div class="formContent">
+           
+           <div class="formBlock">
+               <label for="firstname">first name:</label>
+               <input type="text" name="firstname" id="firstname" <%if(locals.user){ %>
+                   value="<%=user.firstname %>"
+                <%} %> required>
+           </div>
+           <div class="formBlock">
+               <label for="lastname">last name:</label>
+               <input type="text" name="lastname" id="lastname"<%if(locals.user){ %>
+                   value="<%=user.lastname%>"
+                <%} %> required>
+           </div>
+           <div class="formBlock">
+               <label for="email">email:</label>
+               <input type="email" name="username" id="email"<%if(locals.user){ %>
+                   value="<%=user.username %>"
+                <%} %> required>
+           </div>
+           <div class="formBlock">
+               <label for="password">password:</label>
+               <input type="password" name="password" id="password" <%if(locals.user){ %>
+                   value="<%=user.password %>"
+                <%} %>required>
+               
+           </div>
+           <div class="formBlock">
+               <label for="confpassword">Confirm password:</label>
+               <input type="password" name="confpassword" id="confpassword" required>
+           </div>
+           <button type="submit" id="sbmtBtn" class="formBtn">Submit</button>
+       </div>
+    </form>
+</body>
+</html>

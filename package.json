@@ -1,0 +1,33 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "File uploader where authenticated users can upload their files, Users should be able to CRUD folders and upload files in them",
+  "homepage": "https://github.com/Aleks-Nikitin/File-uploader#readme",
+  "bugs": {
+    "url": "https://github.com/Aleks-Nikitin/File-uploader/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleks-Nikitin/File-uploader.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "prisma": "^7.4.1"
+  }
+}
