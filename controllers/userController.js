@@ -1,4 +1,5 @@
 import {matchedData,validationResult,body} from "express-validator";
+import { prisma } from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
 const lengthErr= "length must be more than 1";
 const emailErr= "Not a valid email";
@@ -19,10 +20,13 @@ const validateUser=[
    
 ]
 async function getIndexPage(req,res){
-    res.render("index",{title:"Index page welcome"});
+    res.render("index",{title:"Index page welcome",user:req.user});
 }
 async function getSignupForm(req,res){
     res.render("signupForm",{title:"Sign Up"});
+}
+async function getLoginForm(req,res){
+    res.render("loginForm",{title:"login Form"});
 }
 const postUser =[validateUser,async (req,res)=>{
     const errors = validationResult(req);
@@ -30,12 +34,22 @@ const postUser =[validateUser,async (req,res)=>{
         return res.render("signupForm",{title:"Sign Up",user:req.body,errors:errors.array()})
     }
     const {firstname,lastname,password,username}=matchedData(req);
-    const hashedPassword = await bcrypt.hash(password,10)
-    res.send("success")
-    // post user to database
+    const hashedPassword = (await bcrypt.hash(password,10));
+    await prisma.user.create({
+        data:{
+            firstname:firstname,
+            lastname:lastname,
+            password:hashedPassword,
+            username:username
+        }
+    })
+    res.redirect("/");
+    
 }]
+
 export default{
     getIndexPage,
     getSignupForm,
-    postUser
+    postUser,
+    getLoginForm
 }
