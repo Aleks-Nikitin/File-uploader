@@ -12,6 +12,19 @@
     <div class="welcome">
         <h1>WELCOME BACK <span class="user"><%= user.username %></span></h1>
         <a href="/log-out">LOG OUT</a>
+        
+        <%-include("partials/folderForm") %>
+        <% if(locals.folders){ %>
+        <% folders.forEach(folder => { %>
+            <div class="folderBlock">
+    
+                <a href="/folder"><%=folder.folderName %></a>
+                 <a href="/folder/update?id=<%=folder.id %>"><button>Update</button></a>
+               <a href="/folder/delete?id=<%=folder.id %>"> <button>Delete</button></a>
+    
+            </div>
+       <% }); %>
+        <% } %>
     </div>
   <% }  %>
     <p>

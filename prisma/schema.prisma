@@ -18,7 +18,14 @@ model User {
   lastname String
   firstname String
   password String 
+  folders Folder[]
 
+}
+model Folder{
+  id Int @id @default(autoincrement())
+  folderName String 
+  user User @relation(fields: [userId],references: [id])
+  userId Int 
 }
 model Session {
   id        String   @id

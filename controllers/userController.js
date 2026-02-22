@@ -1,6 +1,7 @@
 import {matchedData,validationResult,body} from "express-validator";
 import { prisma } from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
+
 const lengthErr= "length must be more than 1";
 const emailErr= "Not a valid email";
 const passwordErr="Minimum length: 8 characters Minimum of 1 lowercase character ,Minimum of 1 uppercase character,Minimum of 1 number,Minimum of 1 symbol "
@@ -20,13 +21,48 @@ const validateUser=[
    
 ]
 async function getIndexPage(req,res){
+    if(req.user){
+        const folders = await prisma.folder.findMany({
+        where:{
+            userId:req.user.id
+        }
+    })
+    if(folders){
+        return res.render("index",{title:"Index page welcome",user:req.user,folders:folders});
+    }
+    }
+   
     res.render("index",{title:"Index page welcome",user:req.user});
 }
 async function getSignupForm(req,res){
     res.render("signupForm",{title:"Sign Up"});
 }
+async function getUploadForm(req,res) {
+    res.render("uploadForm",{title:"Upload Files"});
+}
 async function getLoginForm(req,res){
     res.render("loginForm",{title:"login Form"});
+}
+async function postFile(req,res){
+    console.log(req.file);
+    console.log(req.body);
+    res.redirect("/");
+}
+async function postFolder(req,res){
+    const {id}=req.user;
+    const {folderName}=req.body;
+    await prisma.folder.create({
+        data:{
+            folderName:folderName,
+            userId:id
+        }
+    })
+    // db
+    res.redirect("/")
+}
+async function updateFolder(req,res){
+    const {id}=req.query;
+
 }
 const postUser =[validateUser,async (req,res)=>{
     const errors = validationResult(req);
@@ -51,5 +87,8 @@ export default{
     getIndexPage,
     getSignupForm,
     postUser,
-    getLoginForm
+    getLoginForm,
+    getUploadForm,
+    postFile,
+    postFolder
 }

@@ -48,9 +48,16 @@ const logout = async (req, res, next) => {
     res.redirect("/");
   });
 };
+const isAuth = async(req,res,next)=>{
+    if(req.isAuthenticated()){
+       return next()
+    }
+    res.status(401).render("401",{title:"Access denied"});
+}
 export default{
     verifyLocal,
     deserialize,
     serialize,
-    logout
+    logout,
+    isAuth
 }

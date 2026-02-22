@@ -2,13 +2,14 @@ import {Router} from "express";
 const userRouter = Router();
 import userController from "../controllers/userController.js";
 import authController from "../controllers/authController.js";
-
+import multer from "multer";
+const upload = multer({dest:'./public/data/uploads/'});
 userRouter.get("/",userController.getIndexPage);
 userRouter.get("/sign-up",userController.getSignupForm);
 userRouter.post("/sign-up",userController.postUser);
 userRouter.get("/log-in",userController.getLoginForm);
-
-
+userRouter.get("/upload",authController.isAuth,userController.getUploadForm);
+userRouter.post("/upload",authController.isAuth,upload.single('file'), userController.postFile);
 userRouter.get("/log-out",authController.logout);
-
+userRouter.post("/folder",userController.postFolder);
 export default userRouter;
