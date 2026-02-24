@@ -16,13 +16,21 @@
         <%-include("partials/folderForm") %>
         <% if(locals.folders){ %>
         <% folders.forEach(folder => { %>
+            <% 
+                 %>
             <div class="folderBlock">
-    
-                <a href="/folder"><%=folder.folderName %></a>
-                 <a href="/folder/update?id=<%=folder.id %>"><button>Update</button></a>
+
+                    <a href="/folder"><%=folder.folderName%></a>
+                     <button class="updateBtn" data-id="<%=folder.id %>">Update</button>
+                     <form hidden="true" class="updateForm" method="post" action="/folder/update?id=<%=folder.id %>" data-id="<%=folder.id %>" >
+                          <label for="folder">Update Folder Name:</label>
+                          <input type="text" name="folderName" id="folder" required>
+                          <button type="submit">Submit update</button>
+                     </form>
                <a href="/folder/delete?id=<%=folder.id %>"> <button>Delete</button></a>
     
             </div>
+         
        <% }); %>
         <% } %>
     </div>
@@ -34,5 +42,24 @@
          exercitationem dolores maxime animi cumque dignissimos
           ex nostrum aliquid laboriosam.
     </p>
+     <script>
+        const updateBtn=document.querySelectorAll(".updateBtn");
+        const updateForm=document.querySelectorAll(".updateForm");
+        updateBtn.forEach((btn)=>{
+            btn.addEventListener("click",(e)=>{
+            let btnId= e.target.getAttribute('data-id');
+            updateForm.forEach((form)=>{
+                let formId=form.getAttribute("data-id");
+                if(formId == btnId){
+                     if(form.hidden ==true){
+                        form.hidden=false;
+                     }else{
+                        form.hidden=true;
+                         }
+                }
+            })
+        })
+        })
+    </script> 
 </body>
 </html>

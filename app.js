@@ -5,6 +5,7 @@ import {prisma} from "./lib/prisma.js"
 import { Strategy as LocalStrategy } from 'passport-local';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import authController from "./controllers/authController.js";
+
 const app = express();
 import path from "node:path"
 import { fileURLToPath } from 'url';

@@ -1,6 +1,9 @@
 import {matchedData,validationResult,body} from "express-validator";
 import { prisma } from "../lib/prisma.js";
+import 'dotenv/config';
 import bcrypt from "bcryptjs";
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(process.env.SUPABASE_URL,process.env.SUPABASE_KEY);
 
 const lengthErr= "length must be more than 1";
 const emailErr= "Not a valid email";
@@ -38,14 +41,40 @@ async function getSignupForm(req,res){
     res.render("signupForm",{title:"Sign Up"});
 }
 async function getUploadForm(req,res) {
+    if(req.user){
+        const folders = await prisma.folder.findMany({
+            where:{
+                userId:req.user.id
+            }
+        })
+        if(folders){
+            return res.render("uploadForm",{title:"Upload Files",folders:folders})
+        }
+    }
     res.render("uploadForm",{title:"Upload Files"});
 }
 async function getLoginForm(req,res){
     res.render("loginForm",{title:"login Form"});
 }
 async function postFile(req,res){
-    console.log(req.file);
-    console.log(req.body);
+    if(req.file){
+        const file =req.file.buffer;
+        const {folder}=req.body //folder id value
+        const filePath=`${crypto.randomUUID()}-${Date.now()}`;
+        const {errors}=await supabase.storage.from("files").upload(filePath,file);
+        if(errors){
+        return console.log("Errors uploading file to a supabase");
+        }
+        const {data}=supabase.storage.from("files").getPublicUrl(filePath);
+        await prisma.file.create({
+            data:{
+                url:data.publicUrl,
+                folderId: Number(folder)
+            }
+        })
+    }
+  
+
     res.redirect("/");
 }
 async function postFolder(req,res){
@@ -62,7 +91,25 @@ async function postFolder(req,res){
 }
 async function updateFolder(req,res){
     const {id}=req.query;
-
+    const {folderName}=req.body;
+    await prisma.folder.update({
+        where:{
+            id:Number(id)
+        },
+        data:{
+            folderName:folderName
+        }
+    })
+    res.redirect("/");
+}
+async function deleteFolder(req,res){
+    const {id}=req.query;
+    await prisma.folder.delete({
+        where:{
+            id:Number(id)
+        }
+    })
+    res.redirect("/")
 }
 const postUser =[validateUser,async (req,res)=>{
     const errors = validationResult(req);
@@ -90,5 +137,7 @@ export default{
     getLoginForm,
     getUploadForm,
     postFile,
-    postFolder
+    postFolder,
+    updateFolder,
+    deleteFolder
 }
