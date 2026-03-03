@@ -56,8 +56,24 @@ async function getUploadForm(req,res) {
 async function getLoginForm(req,res){
     res.render("loginForm",{title:"login Form"});
 }
+function getFormattedDate(){
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+    let hh = today.getHours();
+    let min = today.getMinutes();
+     if (hh< 10) hh = '0' + hh;
+    if (min< 10) min = '0' + min;
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = `${hh}:${min}  ${mm}/${dd}/${yyyy}`;
+    return formattedToday;
+}
 async function postFile(req,res){
     if(req.file){
+
         const file =req.file.buffer;
         const {folder}=req.body //folder id value
         const filePath=`${crypto.randomUUID()}-${Date.now()}`;
@@ -69,13 +85,38 @@ async function postFile(req,res){
         await prisma.file.create({
             data:{
                 url:data.publicUrl,
-                folderId: Number(folder)
+                folderId: Number(folder),
+                name:req.file.originalname,
+                size:req.file.size,
+                date: getFormattedDate()
             }
         })
     }
   
 
     res.redirect("/");
+}
+async function getFolder(req,res){
+    const {id}=req.query;
+    const folder = await prisma.folder.findUnique({
+        where:{
+            id:Number(id)
+            
+        },
+        include:{
+            file:true
+        }
+    })
+    res.render("folder",{title:"Download files from the folder",user:req.user,files:folder.file})
+}
+async function getFilePage(req,res) {
+    const {id}=req.query;
+    const file =await prisma.file.findUnique({
+        where:{
+            id:Number(id)
+        }
+    })
+    res.render("file",{title:"File info",file:file,user:req.user})
 }
 async function postFolder(req,res){
     const {id}=req.user;
@@ -134,10 +175,12 @@ export default{
     getIndexPage,
     getSignupForm,
     postUser,
+    getFolder,
     getLoginForm,
     getUploadForm,
     postFile,
     postFolder,
     updateFolder,
-    deleteFolder
+    deleteFolder,
+    getFilePage
 }

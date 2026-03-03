@@ -20,7 +20,7 @@
                  %>
             <div class="folderBlock">
 
-                    <a href="/folder"><%=folder.folderName%></a>
+                    <a href="/folder?id=<%=folder.id %>"><%=folder.folderName%></a>
                      <button class="updateBtn" data-id="<%=folder.id %>">Update</button>
                      <form hidden="true" class="updateForm" method="post" action="/folder/update?id=<%=folder.id %>" data-id="<%=folder.id %>" >
                           <label for="folder">Update Folder Name:</label>

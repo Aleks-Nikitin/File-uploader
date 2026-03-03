@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+       <%-include("partials/nav") %>
+    <h1 class="titlePage"><%=title %></h1>
+    <% if(locals.user){ %>
+        <% if(locals.file) {%>
+                <div class="folderBlock">
+                    <p> <%=file.name%> </p>
+                    <p><%=file.size %> bytes</p>
+                    <p>Uploaded:  <%=file.date %></p>
+                    <a 
+                    href="<%=file.url%>?download=<%=file.name%>" 
+                    download="<%=file.name%>"> <button>Download file</button>
+                   </a>
+
+            </div>
+ 
+        <% }%>
+    <% }%>
+</body>
+</html>
