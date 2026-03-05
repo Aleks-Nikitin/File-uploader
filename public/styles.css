@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-family: "Quantico",sans-serif;
+    padding: 30px;
+    
+}
+nav>.findBlock{
+    text-align: center;
+}
+
+.welcome{
+    padding-top: 40px;
+    text-align: center;
+ 
+}
+input[type="checkbox"] {
+        width: 30px;
+        height: 30px;
+            transform: scale(1.3);
+        }
+.titlePage{
+    text-align: center;
+    font-size: 50px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.user{
+    color: #2ad71a;
+}
+.formBtn{
+    margin-top: 20px;
+}
+a{
+    font-size: 19px;
+    color: rgb(255, 6, 2);
+    text-decoration: none;
+}
+nav a{
+    font-size: 60px;
+    padding: 30px;
+    color: rgb(0, 72, 255);
+}
+a:hover{
+    font-weight: bold;
+}
+
+
+button{
+    background-color:rgb(255, 255, 255);
+    color: rgb(162, 0, 255);
+    border: none;
+    font-size: 27px;
+    cursor: pointer;
+}
+#file{
+    font-family: "Quantico";
+    appearance: none;
+}
+button:hover{
+    font-weight: bold;
+}
+.titleBar button{
+    color: white;
+}
+.titleBar h3{
+    font-size: 27px;
+}
+form{
+    
+    flex-direction: column;
+    justify-content: center;
+}
+.pageForm{
+    margin-top: 40px;
+    display: flex;
+}
+.formContent{
+    margin: 0 auto;
+    text-align: center;
+}
+.folderBlock button{
+    font-size: 27px;
+}
+.formBlock{
+    font-size: 21px;
+    margin-top: 10px;
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+}
+.welcome a {
+    font-size: 26px;
+}
+.formBlockUpload{
+    font-size: 21px;
+    margin-top: 10px;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+.formBlockIndex{
+        padding: 40px;
+        display: flex;
+        font-size: 23px;
+        flex-direction: column;
+}
+.error{
+    color: red;
+}
+ .folderBlock{
+        text-align: center;
+    }
+    .folderBlock p{
+        font-size: 30px;
+    }
+    .folderBlock a{
+        font-size: 30px;
+    }
+@media(max-width:700px){
+    nav a{
+        font-size: 40px;
+        padding: 0px;
+    }
+    nav .findBlock{
+        display: grid;
+    }
+    .welcome{
+        padding-top: 20px;
+    }
+    input[type="checkbox"] {
+        width: 30px;
+        height: 30px;
+            transform: scale(1.6);
+        }
+    .formBlockUpload{
+        flex-direction: column;
+    }
+    .fileBlock>input{
+        padding-left: 20px;
+        text-align: center;
+    }
+    .fileBlock> label{
+        display: none;
+    }
+    .formBlock{
+        gap: 10px;
+        font-size: 21px;
+        justify-content: flex-end;
+    }
+    body{
+        padding: 10px;
+    }
+    .formBtn{
+        font-size: 30px;
+    }
+}

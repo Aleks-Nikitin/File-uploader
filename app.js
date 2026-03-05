@@ -43,15 +43,18 @@ app.post(
   "/log-in",
   passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/"
+    failureRedirect: "/404"
   })
 );
 
 app.use("/",userRouter);
 
-app.listen(port,'localhost',(err)=>{
+app.listen(port,'0.0.0.0',(err)=>{
     if(err){
         throw new Error;
     }
     console.log("server started");
+})
+app.use((req,res)=>{
+    res.status(404).render("404",{title:"ERROR 404: Page not found OR invalid credentials"})
 })

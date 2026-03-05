@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<%-include("partials/head") %>
 <body>
     <%-include("partials/nav") %>
-    <h1><%=title %></h1>
          <% if (locals.user) {%>
     <div class="welcome">
         <h1>WELCOME BACK <span class="user"><%= user.username %></span></h1>
@@ -22,26 +17,23 @@
 
                     <a href="/folder?id=<%=folder.id %>"><%=folder.folderName%></a>
                      <button class="updateBtn" data-id="<%=folder.id %>">Update</button>
+                     <a href="/folder/delete?id=<%=folder.id %>"> <button>Delete</button></a>
                      <form hidden="true" class="updateForm" method="post" action="/folder/update?id=<%=folder.id %>" data-id="<%=folder.id %>" >
                           <label for="folder">Update Folder Name:</label>
-                          <input type="text" name="folderName" id="folder" required>
+                          <input type="text" name="folderName" id="folder" required maxlength="15">
                           <button type="submit">Submit update</button>
                      </form>
-               <a href="/folder/delete?id=<%=folder.id %>"> <button>Delete</button></a>
+               
     
             </div>
          
        <% }); %>
         <% } %>
     </div>
-  <% }  %>
-    <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        Unde esse quam perferendis, architecto sed provident
-        molestiae voluptatibus atque eaque voluptates
-         exercitationem dolores maxime animi cumque dignissimos
-          ex nostrum aliquid laboriosam.
-    </p>
+  <% }else{  %>
+    <h1 class="titlePage">Log In/Sign up to see folders</h1>
+    <% } %>
+
      <script>
         const updateBtn=document.querySelectorAll(".updateBtn");
         const updateForm=document.querySelectorAll(".updateForm");

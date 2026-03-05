@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<%-include("partials/head") %>
 <body>
     <%-include("partials/nav") %>
     <h1 class="titlePage"><%=title %></h1>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <div class="formContent">
-            <div class="formBlock">
-                <label for="folder">Select Folder</label>
-                <select name="folder" id="folder">
-                <%if(locals.folders) {%>
-                        <% folders.forEach(folder => {%>
-                            <option value="<%=folder.id %>">
-                                 <%=folder.folderName %></option>
-                      <%  }); %>
-                    <% } %>
-                    </select>
-                <label for="file">Upload a file</label>
-                <input type="file" name="file" id="file">
+            <div class="formBlockUpload">
+                <div class="folderBlock">
+                    <label for="folder">Select Folder</label>
+                    <select name="folder" id="folder">
+                    <%if(locals.folders) {%>
+                            <% folders.forEach(folder => {%>
+                                <option value="<%=folder.id %>">
+                                     <%=folder.folderName %></option>
+                          <%  }); %>
+                        <% } %>
+                        </select>
+                </div>
+                <div class="fileBlock">
+                    <label for="file">Upload a file</label>
+                    <input type="file" name="file" id="file" value="fdsdf">
+                </div>
             </div>
             <button type="submit" class="formBtn"> Submit </button>
         </div>

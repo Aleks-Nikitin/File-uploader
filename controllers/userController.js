@@ -31,7 +31,7 @@ async function getIndexPage(req,res){
         }
     })
     if(folders){
-        return res.render("index",{title:"Index page welcome",user:req.user,folders:folders});
+        return res.render("index",{title:"Your folders:",user:req.user,folders:folders});
     }
     }
    
@@ -76,7 +76,7 @@ async function postFile(req,res){
 
         const file =req.file.buffer;
         const {folder}=req.body //folder id value
-        const filePath=`${crypto.randomUUID()}-${Date.now()}`;
+        const filePath=`${folder}/${req.file.originalname}`;
         const {errors}=await supabase.storage.from("files").upload(filePath,file);
         if(errors){
         return console.log("Errors uploading file to a supabase");
@@ -107,7 +107,7 @@ async function getFolder(req,res){
             file:true
         }
     })
-    res.render("folder",{title:"Download files from the folder",user:req.user,files:folder.file})
+    res.render("folder",{title:"Files from your folder",user:req.user,files:folder.file})
 }
 async function getFilePage(req,res) {
     const {id}=req.query;
@@ -145,11 +145,19 @@ async function updateFolder(req,res){
 }
 async function deleteFolder(req,res){
     const {id}=req.query;
+    const{data}=await supabase.storage.from("files").list(`${id}`);
+    if(data[0]){
+        data.forEach( async (file)=> {
+            await supabase.storage.from("files").remove([`${id}/${file.name}`]);
+        });
+        
+    }
     await prisma.folder.delete({
         where:{
             id:Number(id)
         }
     })
+
     res.redirect("/")
 }
 const postUser =[validateUser,async (req,res)=>{
